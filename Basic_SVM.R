@@ -11,12 +11,10 @@ package.loader(c("caret"))
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #                                                                                                     #
-# A function for performing cross validated SVM modeling on GM data, with PCA feature extraction as a #
-# pre-processing step. Can be applied to a dataset for 'Leave One Out' CV through use of the 'lapply' #
-# function given a vector of integers corresponding to test individuals eg:                           #
-#                                                                                                     #
-# testers <- c(1:90); lapply(testers, gm.pca.SVM, data = svmData, pcSelect = c(1:10), plotSVM = T)    #
-#                                                                                                     #
+# A function for performing cross validated SVM modeling on GM data                                   #
+# Can be applied to a dataset for 'Leave One Out' CV through use of the                               #
+# cross.validate function given a vector of integers corresponding to test individuals.               #
+#                                                                                                     #                                                                                                   #
 # GM data should be provided in the form of a dataframe where the first variable is a class variable  #
 # and subsequent variables are numeric (centroid size and procrustes shape coordinates).              #
 #                                                                                                     #
