@@ -105,32 +105,3 @@ cross.validate <- function(data){
   return(list("Result" = results,
               "Caret Stats" = caretMatrix))
 }
-
-
-# PCA Score Test -----------------------------------------------------------------------------------
-
-pc.score.test <- function(data){
-  
-  testScores <- seq(2, round(nrow(data)*0.90, 0), by = 1)
-  
-  scoreResults <- data.frame(Scores = rep(NA, length(testScores)), 
-                             Acc_Ovr = rep(NA, length(testScores)))
-  
-  testers <- c(1:nrow(data))
-  
-  parallelMap::parallelStartSocket(cpus = parallel::detectCores())
-  
-  for(i in c(1:length(testScores))){
-    results <- lapply(testers, gm.LDA, data, prePCA = T, pcSelect = c(1:testScores[i]))
-    resultsLM1 <- data.frame("True Class" = sapply(results, '[[', 1),
-                             "Predicted Class" = sapply(results, '[[', 2))
-    shapeMatrix <- caret::confusionMatrix(table(resultsLM1[,1], resultsLM1[,2]))
-    scoreResults[i,1] <- testScores[i]
-    scoreResults[i,2] <- as.numeric(shapeMatrix$overall[1])
-  }
-  
-  parallelMap::parallelStop()
-  
-  return(list("results" = scoreResults))
-  
-}
